@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guitar Haven - Premium Guitars</title>
+    <script>
+
+        function switchImage(thumbnail){
+            var newImage = document.getElementsByTagName('img')[thumbnail]
+            var mainImage = document.getElementById('mainImage')
+            mainImage.src = newImage.src
+        }
+    </script>
+    <style>
+
+    
+        body {
+            background: linear-gradient(-45deg, rgb(149, 149, 149), #b2b2b2, rgb(90, 90, 90));
+            background-size: 500% 500%;
+            animation: gradientBG 8s ease infinite;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        nav {
+            background-color: #34495e;
+            padding: 0.5rem;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        nav li {
+            margin: 0 1rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            text-decoration: underline;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .guitar-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .guitar-images {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* This prevents image overflow */
+        }
+        
+        /* Image styling for responsive fitting */
+        .main-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* This makes the image scale proportionally within its container */
+            width: auto;
+            height: auto;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* This prevents image overflow */
+        }
+        
+        /* Thumbnail image styling */
+        .thumbnail img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover; /* This will crop the image to fill the container */
+            width: 100%;
+            height: 100%;
+        }
+        
+        .thumbnail:hover {
+            border-color: #3498db;
+        }
+        
+        .guitar-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .guitar-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .guitar-price {
+            font-size: 1.8rem;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .guitar-description {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .specs {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+        }
+        
+        .specs h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        .specs-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .spec-label {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .buy-button {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .buy-button:hover {
+            background-color: #27ae60;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Guitar Haven</div>
+        <p>Premium Guitars for Distinguished Players</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Electric Guitars</a></li>
+            <li><a href="#">Acoustic Guitars</a></li>
+            <li><a href="#">Bass Guitars</a></li>
+            <li><a href="#">Accessories</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <div class="guitar-details">
+            <div class="guitar-images">
+                <div class="main-image">
+                    <img id="mainImage" src="guitar1_2.jpg" alt="Featured Guitar" />
+                </div>
+                <div class="thumbnail-container">
+                    <div class="thumbnail">
+                        <img src="guitar1_2.jpg" alt="Guitar Thumbnail 1" onclick="switchImage(1)"/>
+                    </div>
+                    <div class="thumbnail">
+                        <img src="guitar1_1.jpg" alt="Guitar Thumbnail 2" onclick="switchImage(2)"/>
+                    </div>
+                    <div class="thumbnail">
+                        <img src="guitar1_3.jpg" alt="Guitar Thumbnail 3" onclick="switchImage(3)"/>
+                    </div>
+                    <div class="thumbnail">
+                        <img src="guitar1_4.jpg" alt="Guitar Thumbnail 4" onclick="switchImage(4)"/>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="guitar-info">
+                <h1 class="guitar-title">Cordoba C9 Parlor Classical Guitar</h1>
+                <div class="guitar-price">$5.99</div>
+                <div class="guitar-description">
+                    <p>insert description </p>
+                    
+                    <p>description continues... plz buy</p>
+                </div>
+                
+                <div class="specs">
+                    <h3>Specifications</h3>
+                    <div class="specs-list">
+                        <div class="spec-item">
+                            <span class="spec-label">Body</span>
+                            <span>body material</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Neck</span>
+                            <span>neck material</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Fingerboard</span>
+                            <span>fingerboard material and number of frets</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Hardware</span>
+                            <span>Truss Rod Wrench 0.1 inch Allen Key</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="buy-button">Add to Cart</button>
+            </div>
+        </div>
+        
+        <div class="more-details">
+            <h2>About This Guitar</h2>
+            <p>some cool description that makes you feel cool if you get this guitar</p>
+            
+            <p>description continues.</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 company name All Rights Reserved.</p>
+        <p>address</p>
+    </footer>
+</body>
+</html>
