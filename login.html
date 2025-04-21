@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <form id="authForm">
+      Username: <input type="text" name="username" required><br>
+      Password: <input type="password" name="password" required><br>
+      <input type="radio" name="action" value="signin" checked> Sign In
+      <input type="radio" name="action" value="login"> Log In<br>
+      <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+      function submitForm() {
+        var form = document.getElementById('authForm');
+        fetch('login_action.html', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form))
+        })
+        .then(res => res.text())
+        .then(html => {
+          document.open();
+          document.write(html);
+          document.close();
+        });
+      }
+    </script>
+  </body>
+</html>
