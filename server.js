@@ -119,4 +119,55 @@ app.get('/cart', function(req,res){
     
 })
 
+app.get('/guitar1_1.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar1_1.jpg'))
+})
+
+app.get('/guitar1_2.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar1_2.jpg'))
+})
+
+app.get('/guitar1_3.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar1_3.jpg'))
+})
+
+app.get('/guitar1_4.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar1_4.jpg'))
+})
+
+app.get('/guitar2_1.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar2_1.jpg'))
+})
+
+app.get('/guitar2_2.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar2_2.jpg'))
+})
+
+app.get('/guitar2_3.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar2_3.jpg'))
+})
+
+app.get('/guitar2_4.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar2_4.jpg'))
+})
+
+app.get('/guitar3_1.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar3_1.jpg'))
+})
+
+app.get('/guitar3_2.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar3_2.jpg'))
+})
+
+app.get('/guitar3_3.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar3_3.jpg'))
+})
+
+app.get('/guitar3_4.jpg', function (req, res){
+    res.sendFile(path.join(publicFolder, 'guitar3_4.jpg'))
+})
+
+app.get('/guitar.png', function(req,res){
+    res.sendFile(path.join(publicFolder, 'guitar.png'))
+})
 app.listen(8080)
