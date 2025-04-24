@@ -11,3 +11,7 @@ order.html
 order_action.html
 cart.html
 
+cosolidate roles into single get request
+add DB
+add cart logic (each button can be hard coded for fetch request)
+maybe change gallery to allow dynamic product list
