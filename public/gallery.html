@@ -227,7 +227,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="/">
+            <a onclick="sendReq('/')">
                 <img src="guitar.png" alt="Guitar Logo" class="icon">
             </a>Guitar World</div>
         <p>Premium Guitars for Distinguished Players</p>
@@ -247,8 +247,8 @@
         
         
         <div class="guitar-grid">
-            <!-- Guitar 1 -->
-            <a href="/guitar1" class="guitar-link">
+
+            <a onclick="sendReq('/guitar1')" class="guitar-link">
                 <div class="guitar-card">
                     <div class="guitar-image">
                         <img src="guitar1_2.jpg" alt="Cordoba C9 Parlor Classical Guitar" />
@@ -261,8 +261,8 @@
                 </div>
             </a>
             
-            <!-- Guitar 2 -->
-            <a href="/guitar2" class="guitar-link">
+
+            <a onclick="sendReq('/guitar2')" class="guitar-link">
                 <div class="guitar-card">
                     <div class="guitar-image">
                         <img src="guitar2_1.jpg" alt="Martin LXK2 Little Martin Koa Pattern HPL Top" />
@@ -275,8 +275,8 @@
                 </div>
             </a>
             
-            <!-- Guitar 3 -->
-            <a href="/guitar3" class="guitar-link">
+
+            <a onclick="sendReq('/guitar3')" class="guitar-link">
                 <div class="guitar-card">
                     <div class="guitar-image">
                         <img src="guitar3_1.jpg" alt="PRS Custom 24" />
@@ -291,16 +291,16 @@
         
         <div class="pagination" style="visibility: hidden;">
             <div class="page-button active">1</div>
-            <div class="page-button"><a href="page2">2</a></div>
-            <div class="page-button"><a href="page3">3</a></div>
-            <div class="page-button"><a href="page4">4</a></div>
-            <div class="page-button"><a href="page2">Next »</a></div>
+            <div class="page-button"><a onclick="sendReq('page2')">2</a></div>
+            <div class="page-button"><a onclick="sendReq('page3')">3</a></div>
+            <div class="page-button"><a onclick="sendReq('page4')">4</a></div>
+            <div class="page-button"><a onclick="sendReq('page2')">Next »</a></div>
         </div>
     </div>
     
     <footer>
         <p>© 2025 company name. All Rights Reserved.</p>
-        <p>address</p>
+        <p>Address</p>
     </footer>
 </body>
 </html>
