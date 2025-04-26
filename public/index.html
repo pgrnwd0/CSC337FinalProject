@@ -38,7 +38,7 @@
 
     </style>
 
-    <a href="/">
+    <a onclick="sendReq('/')">
         <img src="guitar.png" alt="Guitar Logo" class="logo">
     </a>
 
@@ -47,10 +47,10 @@
     <br>
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/store">Guitars</a></li>
-            <li><a href="#">Accessories</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a onclick="sendReq('/')">Home</a></li>
+            <li><a onclick="sendReq('/store')">Guitars</a></li>
+            <li><a onclick="sendReq('#')">Accessories</a></li>
+            <li><a onclick="sendReq('#')">Contact</a></li>
         </ul>
     </nav>
 </body>
