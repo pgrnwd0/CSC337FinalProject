@@ -198,10 +198,10 @@
         
         <nav>
             <ul>
-                <li><a href="/userHome">Home</a></li>
-                <li><a href="/store_loggedin">Guitars</a></li>
-                <li><a href="/account">Account Details</a></li>
-                <li><a href="/logout">Logout</a></li>
+                <li><a onclick="sendReq('/')">Home</a></li>
+                <li><a onclick="sendReq('/store_loggedin')">Guitars</a></li>
+                <li><a onclick="sendReq('/account')">Account Details</a></li>
+                <li><a onclick="sendReq('/logout')">Logout</a></li>
                 
             </ul>
         </nav>
@@ -210,7 +210,7 @@
         <div class="container">
             <div id="cart-container"></div>
             <div>
-            <a href="/order">Order Now</a>
+            <a onclick="sendReq('/order')">Order Now</a>
         </div>
 
         </div>
