@@ -187,10 +187,10 @@
         
         <nav>
             <ul>
-                <li><a href="/userHome">Home</a></li>
-                <li><a href="/store_loggedin">Guitars</a></li>
-                <li><a href="/account">Account Details</a></li>
-                <li><a href="/logout">Logout</a></li>
+                <li><a onclick="sendReq('/userHome')">Home</a></li>
+                <li><a onclick="sendReq('/store_loggedin')">Guitars</a></li>
+                <li><a onclick="sendReq('/account')">Account Details</a></li>
+                <li><a onclick="sendReq('/logout')">Logout</a></li>
             </ul>
         </nav>
 
@@ -199,7 +199,7 @@
         <div class="container">
             <div>
                 
-                <a href="/past_orders">View past orders</a>
+                <a onclick="sendReq('/past_orders')">View past orders</a>
             </div>
             <div>account info
 
@@ -216,7 +216,7 @@
                 <div class="address-group">
                     address<p id="address"></p>
                 </div>
-                <a href="/edit_account">edit account info</a>
+                <a onclick="sendReq('/edit_account')">edit account info</a>
             </div>
         </div>
 
