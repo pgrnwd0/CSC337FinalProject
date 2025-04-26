@@ -3,9 +3,103 @@ var app = express()
 var crypto = require('crypto')
 var fs = require('fs')
 var path = require('path')
+var {MongoClient} = require('mongodb')
+var client = new MongoClient('mongodb://127.0.0.1:27017/')
 
 var cart = [{'name':'guitar1', 'price':'100'}, {'name':'guitar2', 'price':'100'} ]
 var orders = []
+
+function insertManyPromise(docList){
+    client.connect()
+    .then(function(){
+        console.log('connected to Mongodb ...')
+        var db = client.db('testDB2')
+        var coll = db.collection('newCollection')
+        return coll.insertMany(docList)
+    })
+    .then(function(){
+        console.log('Inserted many ...')
+    })
+    .catch(function(err){
+        console.log(err)
+    })
+    .finally(function(){
+        client.close()
+    })
+}
+
+function deletePromise(search){
+    client.connect()
+    .then(function(){
+        console.log('connected to Mongodb ...')
+        var db = client.db('testDB2')
+        var coll = db.collection('newCollection')
+        //return coll.deleteOne(search)
+        return coll.deleteMany(search)
+    })
+    .then(function(){
+        console.log('Deleted one')
+    })
+    .catch(function(err){
+        console.log(err)
+    })
+    .finally(function(){
+        client.close()
+    })
+}
+
+function updatePromise(search, changes){
+    client.connect()
+    .then(function(){
+        console.log('connected to Mongodb ...')
+        var db = client.db('testDB2')
+        var coll = db.collection('newCollection')
+        return coll.updateMany(search, changes)
+    })
+    .then(function(){
+        console.log('Deleted one')
+    })
+    .catch(function(err){
+        console.log(err)
+    })
+    .finally(function(){
+        client.close()
+    })
+}
+
+function insertPromise(doc){
+    client.connect()
+    .then(function(){
+        console.log('connected to Mongodb ...')
+        var db = client.db('testDB2')
+        var coll = db.collection('newCollection')
+        return coll.insertOne(doc)
+    })
+    .then(function(){
+        console.log('Inserted one ...')
+    })
+    .catch(function(err){
+        console.log(err)
+    })
+    .finally(function(){
+        client.close()
+    })
+}
+
+function mongodbConnectPromise(){
+    client.connect()
+    .then(function(){
+        console.log('connected to Mongodb ...')
+        var db = client.db('testDB2')
+        var coll = db.collection('newCollection')
+    })
+    .catch(function(err){
+        console.log(err)
+    })
+    .finally(function(){
+        client.close()
+    })
+}
 function loadUsers(){
     try{
         var users = fs.readFileSync('users.txt', {'encoding':'utf8'})
@@ -53,8 +147,16 @@ function checkAdmin(username){
 var publicFolder = path.join(__dirname, 'public/')
 
 // home
-app.get('/', function(req,res){
+app.get('/', function (req,res){
     res.sendFile(path.join(publicFolder, 'index2.html'))
+    })
+app.post('/' , express.json(), function (req,res){
+    if (req.body.username != undefined){
+        res.sendFile(path.join(publicFolder, 'index_user.html'))
+    }
+    else {
+        res.sendFile(path.join(publicFolder, 'index2.html'))
+    }
 })
 // source file
 app.get('/source.js', function(req, res){
@@ -81,7 +183,7 @@ app.post('/lgn_action', express.urlencoded({'extended':true}), function(req,res)
             res.redirect("/adminHome") 
         }
         else{
-            res.redirect("/userHome") 
+            res.sendFile(path.join(publicFolder, 'index_user.html'))
         }
     }
     else{
@@ -89,13 +191,13 @@ app.post('/lgn_action', express.urlencoded({'extended':true}), function(req,res)
     }
 })
 
-app.get('/userHome', function(req,res){
-    res.sendFile(path.join(publicFolder, 'index_user.html'))
-})
+//app.get('/userHome', function(req,res){
+    //res.sendFile(path.join(publicFolder, 'index_user.html'))
+//})
 
-app.get('/adminHome', function(req,res){
-    res.sendFile(path.join(publicFolder, 'index_user.html'))
-})
+//app.get('/adminHome', function(req,res){
+  //  res.sendFile(path.join(publicFolder, 'index_user.html'))
+//})
 
 app.get('/logout', function(req,res){
     res.redirect('/')
@@ -125,11 +227,17 @@ app.post('/create_action', express.urlencoded({'extended':true}), function(req, 
     res.sendFile(path.join(publicFolder, 'create_action.html'))
 })
 
-app.get('/store', function(req,res){
-    res.sendFile(path.join(publicFolder, 'gallery.html'))
+app.post('/store',express.json(), function(req,res){
+    if (req.body.username != undefined){
+        res.sendFile(path.join(publicFolder, 'gallery.html'))
+    }
+    else {
+       res.sendFile(path.join(publicFolder, 'gallery.html')) 
+    }
+    
 })
 
-app.get('/account', function(req,res){
+app.post('/account', express.json(),function(req,res){
     res.sendFile(path.join(publicFolder, 'account.html'))
 })
 
@@ -158,13 +266,47 @@ app.get('/order_confirm', function(req,res){
 app.get('/cart', function(req,res){
     res.sendFile(path.join(publicFolder, 'cart.html'))
 })
+app.post('/cart', express.json(),function(req,res){
+    res.sendFile(path.join(publicFolder, 'cart.html'))
+})
 
 app.get('/api/cart', function(req,res){
     
     res.json(JSON.stringify(cart));
 })
+app.get('/edit_account', function(req,res){
+    
+    res.sendFile(path.join(publicFolder, 'edit_account.html'))
+})
+app.post('/update_account', express.urlencoded({'extended':true}), function(req, res){
 
+    username = req.body.username
+    fullName = req.body.firstName + " " + req.body.lastName
+    email = req.body.email
+    if (req.body.aLine2 == ''){
+        address = `${req.body.aLine1}, ${req.body.aCity},${req.body.aState},${req.body.aZIP}`
+    }
+    else {
+        address = `${req.body.aLine1},${req.body.aCity},${req.body.aState},${req.body.aZIP},${req.body.aLine2}`
+    }
+    
 
+    for (var i = 0; i < userList.length; i++){
+        if (username == userList[i].username){
+            userList[i]['fullName'] = fullName
+            userList[i]['email'] = email
+            userList[i]['address'] = address
+            break
+        }
+    }
+    console.log(userList[i])
+
+    res.redirect('/account')
+})
+
+app.post('/logout', express.json(),function(req,res){
+    res.sendFile(path.join(publicFolder, 'logout.html'))
+})
 
 // images
 app.get('/guitar1', function(req,res){
