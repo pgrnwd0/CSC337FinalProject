@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Guitar Haven - Premium Guitars</title>
-    <script>
-
-        function switchImage(thumbnail){
-            var newImage = document.getElementsByTagName('img')[thumbnail]
-            var mainImage = document.getElementById('mainImage')
-            mainImage.src = newImage.src
-        }
-    </script>
+    <title>Guitar World - Premium Guitars</title>
+    <script src="source.js"></script>
     <style>
         body {
             background: linear-gradient(-45deg, rgb(149, 149, 149), #b2b2b2, rgb(90, 90, 90));
@@ -17,6 +10,8 @@
             animation: gradientBG 8s ease infinite;
             height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
         }
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
@@ -211,18 +206,16 @@
 </head>
 <body>
     <header>
-        <div class="logo">Guitar Haven</div>
+        <div class="logo">Guitar World</div>
         <p>Premium Guitars for Distinguished Players</p>
     </header>
     
     <nav>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Electric Guitars</a></li>
-            <li><a href="#">Acoustic Guitars</a></li>
-            <li><a href="#">Bass Guitars</a></li>
-            <li><a href="#">Accessories</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a onclick="sendReq('/')">Home</a></li>
+            <li><a onclick="sendReq('/store')">Guitars</a></li>
+            <li><a onclick="sendReq('/login')">Sign In/Up</a></li>
+            <li><a onclick="sendReq('/cart')">Cart</a></li>
         </ul>
     </nav>
     
