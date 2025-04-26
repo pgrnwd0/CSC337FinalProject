@@ -13,7 +13,7 @@ saved after the order is fulfilled.
 
 If you click on login/sign up, it will bring you to a login page. There is a link under
 the form to take you to a sign up page if you don't have an account. For this section,
-we'll select user for the sign up option which will create a user account. Once you are logged in,
+we'll select 'user' for the sign up option which will create a user account. Once you are logged in,
 you can browse and buy the same way as if you were not logged in but you now have the option
 of seeing account details. On that page, you can view your details and add shippping info. The server
 will remember it and automatically fill it in when you go to order your guitars. You can also view
