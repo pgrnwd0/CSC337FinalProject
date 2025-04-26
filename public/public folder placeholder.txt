@@ -1,11 +1,11 @@
 This is the folder that contains all html and such
 
-index.html
+index.html/index_user.html/index_admin.html
 login.html
-lgn_action.html
+lgn_action.html/ login_success.html
 create_user.html
 create_action.html
-store.html (gallery page)
+store.html (gallery page)/ store_user.html
 account.html
 order.html
 order_action.html
