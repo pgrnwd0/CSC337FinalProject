@@ -163,6 +163,9 @@
             height: 2.7rem;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
         
         .guitar-price {
@@ -177,12 +180,36 @@
             color: inherit;
         }
         
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 0.5rem;
+        }
+        
+        .page-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .page-button.active {
+            background-color: #2c3e50;
+            color: white;
+            border-color: #2c3e50;
+        }
+        
+        .page-button:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
         
         footer {
             background-color: #2c3e50;
             color: white;
             text-align: center;
-            width: 100%;
             padding: 1rem;
             margin-top: 2rem;
         }
@@ -200,7 +227,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="/">
+            <a href="/user">
                 <img src="guitar.png" alt="Guitar Logo" class="icon">
             </a>Guitar World</div>
         <p>Premium Guitars for Distinguished Players</p>
@@ -208,10 +235,11 @@
     
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/store">Guitars</a></li>
-            <li><a href="/login">Sign In/Up</a></li>
-            <li><a href="/cart">Cart</a></li>
+            <li><a href="/user">Home</a></li>
+            <li><a href="/store_user">Guitars</a></li>
+            <li><a href="/account">Account Details</a></li>
+            <li><a href="/cart_user">Cart</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
     
@@ -221,7 +249,7 @@
         
         <div class="guitar-grid">
 
-            <a href="/guitar1" class="guitar-link">
+            <a href="/guitar1_user" class="guitar-link">
                 <div class="guitar-card">
                     <div class="guitar-image">
                         <img src="guitar1_2.jpg" alt="Cordoba C9 Parlor Classical Guitar" />
@@ -229,13 +257,13 @@
                     <div class="guitar-info">
                         <h3 class="guitar-name">Cordoba C9 Parlor Classical Guitar</h3>
                         <p class="guitar-brief">Guitar description</p>
-                        <div class="guitar-price">$200.00</div>
+                        <div class="guitar-price">$100.00</div>
                     </div>
                 </div>
             </a>
             
 
-            <a href="/guitar2" class="guitar-link">
+            <a href="/guitar2_user" class="guitar-link">
                 <div class="guitar-card">
                     <div class="guitar-image">
                         <img src="guitar2_1.jpg" alt="Martin LXK2 Little Martin Koa Pattern HPL Top" />
@@ -249,7 +277,7 @@
             </a>
             
 
-            <a href="/guitar3" class="guitar-link">
+            <a href="/guitar3_user" class="guitar-link">
                 <div class="guitar-card">
                     <div class="guitar-image">
                         <img src="guitar3_1.jpg" alt="PRS Custom 24" />

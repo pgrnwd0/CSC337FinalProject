@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Account Management</title>
+  <title>Order</title>
   <script src="source.js"></script>
   <style>
         body {
@@ -54,7 +54,7 @@
             font-weight: 500;
         }
         
-        a:hover {
+        nav a:hover {
             text-decoration: underline;
         }
         
@@ -62,7 +62,7 @@
         .container {
             width: 100%;
             max-width: 800px;
-            padding-left: 20px;
+            padding: 0 auto;
             margin: 0 auto;
             background-color: white;
             
@@ -80,39 +80,27 @@
             font-size: 24px;
         }
     
-    
-    .account-section h2 {
-            margin-top: 0;
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 20px;
+        form {
+      display: flex;
+      flex-direction: column;
     }
-    .username-group, .name-group, .email-group, .address-group {
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            background-color: #f9f9f9;
-        }
-        .info-label {
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 5px;
-            display: block;
-            font-size: 14px;
-            text-transform: uppercase;
-        }
-        a {
-            display: inline-block;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 15px;
-
-        }
-        .edit-link {
-            margin-top: 15px;
-            text-align: right;
-        }
-        footer {
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: none;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    footer {
             background-color: #2c3e50;
             color: white;
             text-align: center;
@@ -141,46 +129,31 @@
         
         <nav>
             <ul>
-                <li><a href="/user">Home</a></li>
-                <li><a href="/store_user">Guitars</a></li>
-                <li><a href="/account">Account Details</a></li>
-                <li><a href="/cart_user">Cart</a></li>
-                <li><a href="/logout">Logout</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/store">Guitars</a></li>
+                <li><a href="/login">Sign in/up</a></li>
             </ul>
         </nav>
 
-        <script>fetchUserData()</script>
 
         <div class="container">
-            <div>
-                
-                <a href="/past_orders">View past orders</a>
-            </div>
-            <div class="account-section">
-                <h2>Account Information</h2>
+            <form method="post" action="/order_confirm">
 
-                <div class="username-group">
-                    Username<p id="username"></p>
-                </div>
-                <div class="name-group">
-                    Name<p id="name"></p>
-                </div>
-                <div class="email-group">
-                    Email<p id="email"></p>
-                </div>
-
-                <div class="address-group">
-                    address<p id="address"></p>
-                </div>
-                <a href="/edit_account">edit account info</a>
-            </div>
+                First name: <input type="text" name="firstName" id="firstName" required>
+                Last name: <input type="text" name="lastName" id="lastName"required><br>
+                Email: <input type="text" name="email" id="email"><br>
+                Address Line 1: <input type="text" name="aLine1" id="aLine1" required><br>
+                Address Line 2: <input type="text" name="aLine2" id="aLine2"><br>
+                City: <input type="text" name="aCity" id="aCity" required>
+                State: <input type="text" name="aState" id="aState" required>
+                ZIP Code: <input type="number" name="aZIP" id="aZIP" required>
+                <input type="submit" onclick="sendCart()">
+            </form>
         </div>
-
         <footer>
-            <p>© 2025 company name. All Rights Reserved.</p>
-            <p>Address</p>
+            <p>© 2025 company name All Rights Reserved.</p>
+            <p>address</p>
         </footer>
-        
 
 </body>
 </html>

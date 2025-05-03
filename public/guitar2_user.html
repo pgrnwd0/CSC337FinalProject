@@ -4,8 +4,6 @@
     <title>Guitar World - Premium Guitars</title>
     <script src="source.js"></script>
     <style>
-
-    
         body {
             background: linear-gradient(-45deg, rgb(149, 149, 149), #b2b2b2, rgb(90, 90, 90));
             background-size: 500% 500%;
@@ -214,10 +212,11 @@
     
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/store">Guitars</a></li>
-            <li><a href="/login">Sign In/Up</a></li>
-            <li><a href="/cart">Cart</a></li>
+            <li><a href="/user">Home</a></li>
+            <li><a href="/store_user">Guitars</a></li>
+            <li><a href="/account">Account Details</a></li>
+            <li><a href="/cart_user">Cart</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
     
@@ -225,27 +224,27 @@
         <div class="guitar-details">
             <div class="guitar-images">
                 <div class="main-image">
-                    <img id="mainImage" src="guitar1_2.jpg" alt="Featured Guitar" />
+                    <img id="mainImage" src="guitar2_1.jpg" alt="Featured Guitar" />
                 </div>
                 <div class="thumbnail-container">
                     <div class="thumbnail">
-                        <img src="guitar1_2.jpg" alt="Guitar Thumbnail 1" onclick="switchImage(1)"/>
+                        <img src="guitar2_1.jpg" alt="Guitar Thumbnail 1" onclick="switchImage(1)"/>
                     </div>
                     <div class="thumbnail">
-                        <img src="guitar1_1.jpg" alt="Guitar Thumbnail 2" onclick="switchImage(2)"/>
+                        <img src="guitar2_2.jpg" alt="Guitar Thumbnail 2" onclick="switchImage(2)"/>
                     </div>
                     <div class="thumbnail">
-                        <img src="guitar1_3.jpg" alt="Guitar Thumbnail 3" onclick="switchImage(3)"/>
+                        <img src="guitar2_3.jpg" alt="Guitar Thumbnail 3" onclick="switchImage(3)"/>
                     </div>
                     <div class="thumbnail">
-                        <img src="guitar1_4.jpg" alt="Guitar Thumbnail 4" onclick="switchImage(4)"/>
+                        <img src="guitar2_4.jpg" alt="Guitar Thumbnail 4" onclick="switchImage(4)"/>
                     </div>
                 </div>
             </div>
             
             <div class="guitar-info">
-                <h1 class="guitar-title">Cordoba C9 Parlor Classical Guitar</h1>
-                <div class="guitar-price">$200.00</div>
+                <h1 class="guitar-title">Martin LXK2 Little Martin Koa Pattern HPL Top</h1>
+                <div class="guitar-price">$300.00</div>
                 <div class="guitar-description">
                     <p>insert description </p>
                     
@@ -273,8 +272,8 @@
                         </div>
                     </div>
                 </div>
-
-                <button class="buy-button" onclick="addToCart({'name':'Cordoba C9 Parlor Classical Guitar', 'price':200})">Add to Cart</button>
+                
+                <button class="buy-button" onclick="addToCart({'name':'Martin LXK2 Little Martin Koa Pattern HPL Top', 'price':300})">Add to Cart</button>
             </div>
         </div>
         

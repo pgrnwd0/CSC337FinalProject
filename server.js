@@ -3,18 +3,17 @@ var app = express()
 var crypto = require('crypto')
 var fs = require('fs')
 var path = require('path')
-var {MongoClient} = require('mongodb')
+var {MongoClient, ObjectId} = require('mongodb')
 var client = new MongoClient('mongodb://127.0.0.1:27017/')
 
-var cart = [{'name':'guitar1', 'price':'100'}, {'name':'guitar2', 'price':'100'} ]
-var orders = []
+var orderNumber = 0
 
 function insertManyPromise(docList){
     client.connect()
     .then(function(){
         console.log('connected to Mongodb ...')
-        var db = client.db('testDB2')
-        var coll = db.collection('newCollection')
+        var db = client.db('guitarWorldDB')
+        var coll = db.collection('users')
         return coll.insertMany(docList)
     })
     .then(function(){
@@ -32,8 +31,8 @@ function deletePromise(search){
     client.connect()
     .then(function(){
         console.log('connected to Mongodb ...')
-        var db = client.db('testDB2')
-        var coll = db.collection('newCollection')
+        var db = client.db('guitarWorldDB')
+        var coll = db.collection('users')
         //return coll.deleteOne(search)
         return coll.deleteMany(search)
     })
@@ -48,16 +47,16 @@ function deletePromise(search){
     })
 }
 
-function updatePromise(search, changes){
+function updatePromise(search, changes, type){
     client.connect()
     .then(function(){
         console.log('connected to Mongodb ...')
-        var db = client.db('testDB2')
-        var coll = db.collection('newCollection')
+        var db = client.db('guitarWorldDB')
+        var coll = db.collection(type)
         return coll.updateMany(search, changes)
     })
     .then(function(){
-        console.log('Deleted one')
+        console.log('Updated one')
     })
     .catch(function(err){
         console.log(err)
@@ -71,8 +70,8 @@ function insertPromise(doc){
     client.connect()
     .then(function(){
         console.log('connected to Mongodb ...')
-        var db = client.db('testDB2')
-        var coll = db.collection('newCollection')
+        var db = client.db('guitarWorldDB')
+        var coll = db.collection('users')
         return coll.insertOne(doc)
     })
     .then(function(){
@@ -86,77 +85,90 @@ function insertPromise(doc){
     })
 }
 
-function mongodbConnectPromise(){
-    client.connect()
-    .then(function(){
-        console.log('connected to Mongodb ...')
-        var db = client.db('testDB2')
-        var coll = db.collection('newCollection')
-    })
-    .catch(function(err){
-        console.log(err)
-    })
-    .finally(function(){
-        client.close()
-    })
-}
-function loadUsers(){
+async function insertOrder(doc){
     try{
-        var users = fs.readFileSync('users.txt', {'encoding':'utf8'})
-        var userList2 = users.split('\n')
-        var result = []
-        for(var i=0;i<userList2.length-1;i++)
-        {
-            var user = userList2[i]
-            user = user.split(',')
-            var obj = {'username':user[0], 'password':user[1], 'usertype':user[2]}
-            result.push(obj)
-        }
-        return result
+        
+        await client.connect()
+        console.log('connected to Mongodb ...')
+        var db = client.db('guitarWorldDB')
+        var coll = db.collection('orders')
+        await coll.insertOne(doc)
+        console.log('Inserted one ...')
+        await client.close()
     }catch(err){
         console.log(err)
-        return []
+    }
+}
+    
+async function find(search, type){
+    try {
+        await client.connect()
+        var db = client.db('guitarWorldDB')
+        var coll = db.collection(type)
+        var user = await coll.findOne(search)
+        client.close()
+        return user
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+async function findMany(search, type){
+    try {
+        await client.connect()
+        var db = client.db('guitarWorldDB')
+        var coll = db.collection(type)
+        user = await coll.find(search).toArray()
+        client.close()
+        return user
+    }
+    catch(err){
+        console.log(err)
     }
 }
 
-var userList = loadUsers()
-
-function checkLogin(username, password){
-    for(var i=0;i<userList.length;i++)
-    {
-        var user = userList[i]
-        var hashedPass = crypto.createHash('sha256').update(password).digest('hex')
-        if((user.username==username)&&(user.password==hashedPass)){
-            return true
+async function checkLogin(username, password){
+    try{
+        var user =  await find({'username':username}, 'users')
+        console.log(user)
+        if (user != null){
+            var hashedPass = crypto.createHash('sha256').update(password).digest('hex')
+            if (username == user.username && hashedPass == user.password){
+                if (user.usertype == 'admin'){
+                    return 2
+                }
+                return 1
+            }
         }
+        return 0
     }
-    return false
+    catch(err){
+        console.log(err)
+    }
 }
 
-function checkAdmin(username){
-    for(var i=0;i<userList.length;i++){
-        var user = userList[i]
-        if((user.username==username)&&(user.usertype=='admin'))
-        {
-            return true
-        }
-    }
-    return false
-}
 
 var publicFolder = path.join(__dirname, 'public/')
 
 // home
 app.get('/', function (req,res){
-    res.sendFile(path.join(publicFolder, 'index2.html'))
+    res.sendFile(path.join(publicFolder, 'index.html'))
     })
+
 app.post('/' , express.json(), function (req,res){
     if (req.body.username != undefined){
-        res.sendFile(path.join(publicFolder, 'index_user.html'))
+        res.sendFile(path.join(publicFolder, 'index.html'))
     }
     else {
-        res.sendFile(path.join(publicFolder, 'index2.html'))
+        res.sendFile(path.join(publicFolder, 'index_user.html'))
     }
+})
+
+app.get('/user', function (req,res){
+    res.sendFile(path.join(publicFolder, 'index_user.html'))
+})
+app.get('/admin', function (req, res){
+    res.sendFile(path.join(publicFolder, 'index_admin.html'))
 })
 // source file
 app.get('/source.js', function(req, res){
@@ -172,151 +184,223 @@ app.get('/style.css', function(req, res){
 app.get('/login', function(req,res){
     res.sendFile(path.join(publicFolder, 'login.html'))
 })
-app.post('/login', express.json(), function(req, res){
-    res.sendFile(path.join(publicFolder, 'login.html'))
-})
 
-app.post('/lgn_action', express.urlencoded({'extended':true}), function(req,res){
-     if(checkLogin(req.body.username, req.body.password)){
-
-        if(checkAdmin(req.body.username)){
-            res.redirect("/adminHome") 
+app.post('/lgn_action', express.urlencoded({'extended':true}), async function(req,res){
+    try {
+        var login = await checkLogin(req.body.username, req.body.password)
+        if (login == 1){
+            res.redirect('/user')
         }
-        else{
-            res.sendFile(path.join(publicFolder, 'index_user.html'))
+        else if (login == 2){
+            res.redirect('/admin')
+        }
+        else {
+            res.sendFile(path.join(publicFolder, 'lgn_action_failure.html'))
         }
     }
-    else{
-        res.sendFile(path.join(publicFolder, 'lgn_action_failure.html'))
+    catch(err){
+        console.log(err)
     }
 })
-
-//app.get('/userHome', function(req,res){
-    //res.sendFile(path.join(publicFolder, 'index_user.html'))
-//})
-
-//app.get('/adminHome', function(req,res){
-  //  res.sendFile(path.join(publicFolder, 'index_user.html'))
-//})
 
 app.get('/logout', function(req,res){
-    res.redirect('/')
+    res.sendFile(path.join(publicFolder, 'logout.html'))
 })
 
 // create user
 app.get('/create_user', function(req, res){
     res.sendFile(path.join(publicFolder, 'create_user.html'))
 })
-app.post('/create_user', express.json(), function(req, res){
-    res.sendFile(path.join(publicFolder, 'create_user.html'))
-})
 
 app.post('/create_action', express.urlencoded({'extended':true}), function(req, res){
     var hashedPass = crypto.createHash('sha256').update(req.body.password).digest('hex')
 
-    userList.push({'username':req.body.username, 'password':hashedPass, 'usertype':req.body.usertype})
-    console.log('Number of users:', userList.length)
+    var user = {'username':req.body.username, 'password':hashedPass, 'usertype':req.body.usertype}
 
-    try{
-        var user = `${req.body.username},${hashedPass},${req.body.usertype}\n`
-        fs.appendFileSync('users.txt', user, {'encoding':'utf8'})
-    }catch(err){
-        console.log(err)
-    }
+    insertPromise(user)
 
-    res.sendFile(path.join(publicFolder, 'create_action.html'))
+    res.redirect('/')
 })
 
-app.post('/store',express.json(), function(req,res){
-    if (req.body.username != undefined){
-        res.sendFile(path.join(publicFolder, 'gallery.html'))
-    }
-    else {
-       res.sendFile(path.join(publicFolder, 'gallery.html')) 
-    }
-    
+app.get('/store', function(req, res){
+    res.sendFile(path.join(publicFolder, 'gallery.html'))
 })
-
-app.post('/account', express.json(),function(req,res){
+app.get('/store_user', function(req, res){
+    res.sendFile(path.join(publicFolder, 'gallery_user.html'))
+})
+app.get('/account',function(req,res){
     res.sendFile(path.join(publicFolder, 'account.html'))
 })
 
-app.post('/api/user/profile',  express.json(), function (req, res){
+
+app.post('/api/user/profile',  express.json(),  async function (req, res){
     var username = req.body.username
-    console.log(username)
-    var userID = 0
-    for (var i = 0; i < userList.length; i++){
-        if (username == userList[i].username) {
-            userID = i
-            break
-        }
+    try{
+        var user = await find({'username':username}, 'users')
+        console.log(user)
+        var userData = JSON.stringify(user);
+        res.json(userData);
     }
-    const userData = JSON.stringify(userList[userID]);
-    res.json(userData);
+    catch(err){
+        console.log(err)
+    }
   });
 
 app.get('/order', function(req,res){
-    
+    res.sendFile(path.join(publicFolder, 'order.html'))
 })
-
+app.get('/order_user', function(req,res){
+    res.sendFile(path.join(publicFolder, 'order_user.html'))
+})
+app.get('/orders_admin', function(req,res){
+    res.sendFile(path.join(publicFolder, 'order_admin.html'))
+})
 app.get('/order_confirm', function(req,res){
-    cart = []
+    res.sendFile(path.join(publicFolder, 'order_confirm.html'))
 })
+app.post('/order_confirm', express.json(), function(req,res){
 
+    res.sendFile(path.join(publicFolder, 'order_confirm.html'))
+})
+app.get('/order_confirm_user', function(req,res){
+    res.sendFile(path.join(publicFolder, 'order_confirm_user.html'))
+})
+app.post('/order_confirm_user', express.urlencoded({'extended':true}), function (req, res){
+    res.sendFile(path.join(publicFolder, 'order_confirm_user.html'))
+})
 app.get('/cart', function(req,res){
     res.sendFile(path.join(publicFolder, 'cart.html'))
 })
-app.post('/cart', express.json(),function(req,res){
-    res.sendFile(path.join(publicFolder, 'cart.html'))
+app.get('/cart_user', function(req,res){
+    res.sendFile(path.join(publicFolder, 'cart_user.html'))
 })
 
-app.get('/api/cart', function(req,res){
-    
-    res.json(JSON.stringify(cart));
+app.post('/api/unorders', express.json(), async function(req, res) {
+    try{
+        var orders = await findMany({'fullfilled':'no'}, 'orders')
+        for (var i = 0; i < orders.length; i++){
+            console.log(orders[i])
+        }
+        res.json(orders)
+    }
+    catch(err){
+        console.log(err)
+    }
 })
-app.get('/edit_account', function(req,res){
+
+app.post('/api/order',express.json(), async function(req,res){ 
+    try{
+        var username = req.body.username
+        console.log(req.body.cart)
+        if (username == undefined){
+            username = 'guest'
+        }
+        body = {'username':username, 'order':req.body.cart, 'name':req.body.name, 'address':req.body.address, 'orderNumber':orderNumber, 'fullfilled':'no', 'total':req.body.total}
+        orderNumber += 1
+        await insertOrder(body)
+        console.log('inserted order')
+        res.send('order successfull')
+    }
+    catch(err){
+        console.log(err)
+    }
     
+})
+app.get('/edit_account', function(req,res){ 
     res.sendFile(path.join(publicFolder, 'edit_account.html'))
 })
-app.post('/update_account', express.urlencoded({'extended':true}), function(req, res){
 
-    username = req.body.username
-    fullName = req.body.firstName + " " + req.body.lastName
-    email = req.body.email
-    if (req.body.aLine2 == ''){
-        address = `${req.body.aLine1}, ${req.body.aCity},${req.body.aState},${req.body.aZIP}`
+app.post('/update_account', express.urlencoded({'extended':true}), async function(req, res){
+    try{
+        username = req.body.username
+        console.log(req.body)
+        fullName = req.body.firstName + " " + req.body.lastName
+        email = req.body.email
+        address = `${req.body.aLine1},${req.body.aLine2},${req.body.aCity},${req.body.aState},${req.body.aZIP}`
+
+        updatePromise({'username':username}, {"$set":{'address':address, 'fullname': fullName, 'email':email}}, 'users')
+        res.sendFile(path.join(publicFolder, 'account.html')) 
     }
-    else {
-        address = `${req.body.aLine1},${req.body.aCity},${req.body.aState},${req.body.aZIP},${req.body.aLine2}`
+    catch(err){
+        console.log(err)
     }
+        
     
+    
+})
 
-    for (var i = 0; i < userList.length; i++){
-        if (username == userList[i].username){
-            userList[i]['fullName'] = fullName
-            userList[i]['email'] = email
-            userList[i]['address'] = address
-            break
+app.post('/api/userOrders',express.json(), async function(req,res){
+    var username = req.body.username
+    try{
+        var orders = await findMany({'username':username}, 'orders')
+        for (var i = 0; i< user.length;i++){
+            console.log(orders[i])
         }
+        
+        var userData = JSON.stringify(user.orders);
+        res.json(user);
     }
-    console.log(userList[i])
+    catch(err){
+        console.log(err)
+    }
+}) 
 
-    res.redirect('/account')
+app.get('/past_orders', function(req,res){
+    res.sendFile(path.join(publicFolder, 'order_account.html'))
 })
 
-app.post('/logout', express.json(),function(req,res){
-    res.sendFile(path.join(publicFolder, 'logout.html'))
+app.post('/api/fullfill', express.json(), async function (req, res){
+    try{
+        var id = new ObjectId(`${req.body._id}`)
+        console.log(id)
+        updatePromise({'_id':id}, {"$set": {'fullfilled':'yes'}}, 'orders')
+        res.send("go for it")
+    }
+    catch(err){
+        console.log(err)
+    }
 })
-
+app.post('/dashboard', express.json(), async function(req, res){
+    try{
+        var totalOrders = await findMany({} , 'orders')
+        var totalLength = totalOrders.length
+        var pendingOrders = 0
+        
+        var total = 0 
+        for (var i = 0; i < totalOrders.length;i++ ){
+            if (totalOrders[i].fullfilled == 'no'){
+                pendingOrders += 1;
+            }
+            total += Number(totalOrders[i].total)
+        }
+        var ttt = await findMany({}, 'users')
+        var totalUsers = await findMany({}, 'users')
+        var data = {'orderTotal':totalLength ,'pendingOrders':pendingOrders, 'totalUsers':totalUsers.length -1, 'moneyMade':total}
+        console.log(data)
+        res.json(data)
+    }
+    catch(err){
+        console.log(err)
+    }
+})
 // images
 app.get('/guitar1', function(req,res){
     res.sendFile(path.join(publicFolder, 'guitar1.html'))
 })
+app.get('/guitar1_user', function(req,res){
+    res.sendFile(path.join(publicFolder, 'guitar1_user.html'))
+})
 app.get('/guitar2', function(req,res){
     res.sendFile(path.join(publicFolder, 'guitar2.html'))
 })
+app.get('/guitar2_user', function(req,res){
+    res.sendFile(path.join(publicFolder, 'guitar2_user.html'))
+})
 app.get('/guitar3', function(req,res){
     res.sendFile(path.join(publicFolder, 'guitar3.html'))
+})
+app.get('/guitar3_user', function(req,res){
+    res.sendFile(path.join(publicFolder, 'guitar3_user.html'))
 })
 app.get('/guitar1_1.jpg', function (req, res){
     res.sendFile(path.join(publicFolder, 'guitar1_1.jpg'))

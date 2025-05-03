@@ -212,10 +212,10 @@
     
     <nav>
         <ul>
-            <li><a onclick="sendReq('/')">Home</a></li>
-            <li><a onclick="sendReq('/store')">Guitars</a></li>
-            <li><a onclick="sendReq('/login')">Sign In/Up</a></li>
-            <li><a onclick="sendReq('/cart')">Cart</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/store">Guitars</a></li>
+            <li><a href="/login">Sign In/Up</a></li>
+            <li><a href="/cart">Cart</a></li>
         </ul>
     </nav>
     
@@ -243,7 +243,7 @@
             
             <div class="guitar-info">
                 <h1 class="guitar-title">Martin LXK2 Little Martin Koa Pattern HPL Top</h1>
-                <div class="guitar-price">$5.99</div>
+                <div class="guitar-price">$300.00</div>
                 <div class="guitar-description">
                     <p>insert description </p>
                     
@@ -272,7 +272,7 @@
                     </div>
                 </div>
                 
-                <button class="buy-button">Add to Cart</button>
+                <button class="buy-button" onclick="addToCart({'name':'Martin LXK2 Little Martin Koa Pattern HPL Top', 'price':300})">Add to Cart</button>
             </div>
         </div>
         

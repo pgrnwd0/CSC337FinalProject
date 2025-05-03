@@ -63,8 +63,8 @@
             padding: 0 1rem;
         }
         
-        /* Hero Section */
-        .hero {
+        /* main Section */
+        .main {
             position: relative;
             height: 500px;
             color: white;
@@ -72,7 +72,7 @@
             margin-bottom: 3rem;
         }
         
-        .hero-content {
+        .main-content {
             position: relative;
             z-index: 1;
             height: 100%;
@@ -83,17 +83,17 @@
             max-width: 600px;
         }
         
-        .hero h1 {
+        .main h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
         }
         
-        .hero p {
+        .main p {
             font-size: 1.2rem;
             margin-bottom: 2rem;
         }
         
-        .cta-button {
+        .store-button {
             display: inline-block;
             background-color: #e74c3c;
             color: white;
@@ -104,7 +104,7 @@
             transition: background-color 0.3s;
         }
         
-        .cta-button:hover {
+        .store-button:hover {
             background-color: #c0392b;
         }
         
@@ -207,21 +207,21 @@
     
     <nav>
         <ul>
-            <li><a onclick="sendReq('/')">Home</a></li>
-            <li><a onclick="sendReq('/store')">Guitars</a></li>
-            <li><a onclick="sendReq('/account')">Account Details</a></li>
-            <li><a onclick="sendReq('/cart')">Cart</a></li>
-            <li><a onclick="sendReq('/logout')">Logout</a></li>
+            <li><a href="/user">Home</a></li>
+            <li><a href="/store_user">Guitars</a></li>
+            <li><a href="/account">Account Details</a></li>
+            <li><a href="/cart_user">Cart</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
     
-    <section class="hero">
+    <section class="main">
 
         <div class="container">
-            <div class="hero-content">
+            <div class="main-content">
                 <h1>Find Your guitar</h1>
                 <p>Guitars guitars... guitars.</p>
-                <a onclick="sendReq('/store')" class="cta-button">Shop Now</a>
+                <a href="/store_user" class="store-button">Shop Now</a>
             </div>
         </div>
     </section>

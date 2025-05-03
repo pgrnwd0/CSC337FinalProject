@@ -173,7 +173,7 @@
 <body>
     <header>
         <div class="logo">
-            <a onclick="sendReq('/')">
+            <a href='/'>
                 <img src="guitar.png" alt="Guitar Logo" class="icon">
             </a>Guitar World</div>
         <p>Premium Guitars for Distinguished Players</p>
@@ -181,9 +181,9 @@
     
     <nav>
         <ul>
-            <li><a onclick="sendReq('/')">Home</a></li>
-            <li><a onclick="sendReq('/store')">Guitars</a></li>
-            <li><a onclick="sendReq('/login')">Log In</a></li>
+            <li><a href='/'>Home</a></li>
+            <li><a href='/store'>Guitars</a></li>
+            <li><a href='/login'>Log In</a></li>
 
         </ul>
     </nav>
@@ -206,7 +206,7 @@
             </div>
             <button type="submit" class="signup-btn" onclick="storeUser()">Create Account</button>
             <div class="register-link">
-              Already have an account? <a onclick="sendReq('/login')">Sign in</a>
+              Already have an account? <a href='/login'>Sign in</a>
             </div>
           </form>
     </div>

@@ -54,7 +54,7 @@
             font-weight: 500;
         }
         
-        a:hover {
+        nav a:hover {
             text-decoration: underline;
         }
         
@@ -62,9 +62,10 @@
         .container {
             width: 100%;
             max-width: 800px;
-            padding-left: 20px;
+            padding: 0 auto;
             margin: 0 auto;
             background-color: white;
+            height: 100%;
             
         }
     
@@ -80,38 +81,20 @@
             font-size: 24px;
         }
     
-    
-    .account-section h2 {
-            margin-top: 0;
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 20px;
-    }
-    .username-group, .name-group, .email-group, .address-group {
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            background-color: #f9f9f9;
+        #order-table .product {
+            width: 40%;
         }
-        .info-label {
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 5px;
-            display: block;
-            font-size: 14px;
-            text-transform: uppercase;
+        #order-table .price {
+            width: 20%;
         }
-        a {
-            display: inline-block;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 15px;
-
-        }
-        .edit-link {
-            margin-top: 15px;
+        #order-table .action {
+            width: 20%;
             text-align: right;
         }
+        td{
+            text-align: center;
+        }
+
         footer {
             background-color: #2c3e50;
             color: white;
@@ -127,6 +110,9 @@
             top: 20px;
             left: 20px;
             
+        }
+        table{
+            width: 100%;
         }
   </style>
 </head>
@@ -149,38 +135,24 @@
             </ul>
         </nav>
 
-        <script>fetchUserData()</script>
+        <script>fetchUserOrders()</script>
 
         <div class="container">
-            <div>
-                
-                <a href="/past_orders">View past orders</a>
-            </div>
-            <div class="account-section">
-                <h2>Account Information</h2>
+            <table id="order-table">
+                <thead>
+                    <tr>
+                        <th class="product">Product</th>
+                        <th class="price">Price</th>
+                        <th class="action">Action</th>
+                    </tr>
+                </thead>
 
-                <div class="username-group">
-                    Username<p id="username"></p>
-                </div>
-                <div class="name-group">
-                    Name<p id="name"></p>
-                </div>
-                <div class="email-group">
-                    Email<p id="email"></p>
-                </div>
-
-                <div class="address-group">
-                    address<p id="address"></p>
-                </div>
-                <a href="/edit_account">edit account info</a>
-            </div>
+            </table>
         </div>
-
         <footer>
             <p>© 2025 company name. All Rights Reserved.</p>
             <p>Address</p>
         </footer>
-        
 
 </body>
 </html>
