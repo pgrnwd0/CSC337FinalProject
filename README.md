@@ -20,4 +20,7 @@ will remember it and automatically fill it in when you go to order your guitars.
 previous orders ascociated with your account and reorder them in case there was a guitar you liked
 so much that you need a second one.
 
-If we create an admin account, 
+If we create an admin account, you have a dashboard that will desplay how many orders have been made, how many orders have
+yet to be fulfilled, how many users accounts are stored, and the total price of every order. The fullfill order tab allows
+you to view every unfullfulled order. You can see what items need to be packed and the info for the shipping label.
+each order has a button that marks it as fullfilled and takes it off the pending order list.
